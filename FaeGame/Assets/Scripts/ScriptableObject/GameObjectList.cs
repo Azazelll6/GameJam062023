@@ -5,4 +5,11 @@ using UnityEngine;
 public class GameObjectList : ScriptableObject
 {
     public List<GameObject> gameObjectList;
+
+    public int Size()
+    {
+        return gameObjectList.Count;
+    }
+
+    public GameObject this[int index] => gameObjectList[index];
 }

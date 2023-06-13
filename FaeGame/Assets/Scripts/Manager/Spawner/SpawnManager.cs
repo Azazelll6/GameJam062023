@@ -1,19 +1,31 @@
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class SpawnManager : MonoBehaviour
 {
-    public GameObject prefab;
+    public UnityEvent creepSpawned;
+
+    public SpawnerData spawnerData;
     public Transform pathingToLocation;
-    public int maxCount = 10, poolSize = 20;
-    private int _activeCount = 0;
-    public float spawnRate = 0.3f;
+    
+    public int activeCount, maxCount = 10, poolSize = 20;
+    public float spawnRate = 0.3f, startSpawnDelay = 1.0f;
+    
+    private GameObject prefab => spawnerData.GetRandomPrefab();
     private List<GameObject> _pooledObjects;
 
     private void Start()
     {
+        spawnerData.ResetSpawner();
         UpdatePool();
-        InvokeRepeating(nameof(Spawner), 1, spawnRate);
+        StartSpawn();
+    }
+
+    public void StartSpawn()
+    {
+        InvokeRepeating(nameof(Spawner), startSpawnDelay, spawnRate);
     }
 
     private void UpdatePool()
@@ -22,24 +34,16 @@ public class SpawnManager : MonoBehaviour
         for (int i = 0; i < poolSize; i++)
         {
             GameObject obj = (GameObject)Instantiate(prefab);
-            obj.SetActive(false);
-            obj.GetComponent<NavAgentBehavior>().destination = pathingToLocation;
             _pooledObjects.Add(obj);
-            _pooledObjects[i].GetComponent<NavAgentBehavior>().Setup(pathingToLocation);
+            obj.GetComponent<NavAgentBehavior>().destination = pathingToLocation;
+            obj.SetActive(false);
         }
     }
 
-
-    public void DecrementActiveCount()
-    {
-        if (_activeCount > 0)
-            _activeCount--;
-    }
-
-
     private void Spawner()
     {
-        if (_activeCount < maxCount)
+        activeCount =  spawnerData.GetAliveCount();
+        if (activeCount < maxCount)
         {
             for (var i = 0; i < _pooledObjects.Count; i++)
             {
@@ -48,10 +52,13 @@ public class SpawnManager : MonoBehaviour
                     _pooledObjects[i].transform.position = transform.position;
                     _pooledObjects[i].transform.rotation = Quaternion.identity;
                     _pooledObjects[i].SetActive(true);
-                    _activeCount++;
+                    _pooledObjects[i].GetComponent<NavAgentBehavior>().Setup(pathingToLocation);
+                    spawnerData.IncrementCreepsAliveCount();
+                    creepSpawned.Invoke();
                     break;
                 }
             }
         }
     }
+
 }

@@ -20,7 +20,7 @@ public class NavAgentBehavior : MonoBehaviour
 
     private void OnEnable()
     {
-        _ai.SetDestination(destination.position);
+        // _ai.SetDestination(destination.position); Remove or comment this line
         StartEndPathCheck();
     }
 
@@ -29,7 +29,6 @@ public class NavAgentBehavior : MonoBehaviour
         this.destination = dest;
         _ai.SetDestination(destination.position);
     }
-
 
     private void StartEndPathCheck()
     {
