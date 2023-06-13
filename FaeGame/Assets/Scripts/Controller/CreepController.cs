@@ -10,10 +10,12 @@ public class CreepController : MonoBehaviour, IDamagable, IDamageDealer
     private NavAgentBehavior _agentBehavior;
     private NavMeshAgent _agent;
 
-    private void OnEnable()
+    private void Awake()
     {
         _agent = GetComponent<NavMeshAgent>();
         _agent.speed = creepData.speed;
+        _agent.radius = creepData.radius;
+        _agent.height = creepData.height;
     }
     
     public void TakeDamage(float amount)
