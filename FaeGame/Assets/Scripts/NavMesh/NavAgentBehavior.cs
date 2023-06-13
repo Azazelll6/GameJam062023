@@ -3,59 +3,34 @@ using UnityEngine;
 using UnityEngine.AI;
 
 [RequireComponent(typeof(NavMeshAgent))]
-public class NavAgentBehavior : MonoBehaviour, IDamagable, IDamageDealer
+public class NavAgentBehavior : MonoBehaviour
 {
-    private IMove _movementBehavior;
     private WaitForFixedUpdate _wffuObj = new WaitForFixedUpdate();
-    private Coroutine _moveCoroutine;
-
+    private NavMeshAgent _ai;
     public Transform destination;
 
-    private void Awake()
+    private void OnEnable()
     {
-        _movementBehavior = GetComponent<IMove>();
-        Debug.Log(_movementBehavior);
-        SetMoveBehavior(_movementBehavior);
-        if (_movementBehavior is INeedsTransform needsTransform)
-        {
-            Debug.Log("Need Transform");
-            needsTransform.SetTransform(destination);
-        }
-        
-        StartMovement();
+        _ai = GetComponent<NavMeshAgent>();
+        _ai.SetDestination(destination.position);
+        StartEndPathCheck();
     }
 
-    public void SetMoveBehavior(IMove behavior)
+    public void StartEndPathCheck()
     {
-        _movementBehavior = behavior;
+        StartCoroutine(EndCheck());
     }
 
-    private void StartMovement()
-    {
-        _moveCoroutine = StartCoroutine(Move());
-    }
-
-    public void StopMovement()
-    {
-        if (_moveCoroutine != null) StopCoroutine(_moveCoroutine);
-    }
-
-    private IEnumerator Move()
+    private IEnumerator EndCheck()
     {
         while(true)
         {
-            _movementBehavior?.Move();
+            if (_ai.remainingDistance < 0.5f && _ai.hasPath)
+            {
+                gameObject.SetActive(false);
+                yield break;
+            }
             yield return _wffuObj;
         }
-    }
-    
-    public void TakeDamage(float amount)
-    {
-        throw new System.NotImplementedException();
-    }
-
-    public void DealDamage(IDamagable target, float amount)
-    {
-        throw new System.NotImplementedException();
     }
 }

@@ -1,9 +1,8 @@
 using UnityEngine;
 
-[CreateAssetMenu (fileName = "CreepData", menuName = "Data/CreepData/CreepData/Creep Data")]
+[CreateAssetMenu (fileName = "CreepData", menuName = "Data/ControllerData/CreepData")]
 public class CreepData : ScriptableObject
 {
-    public IMove movementBehavior { get; set; }
-    public Transform destination { get; set; }
-    public float height;
+    public string unitName, type;
+    public float speed, height, radius;
 }
