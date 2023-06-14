@@ -13,7 +13,7 @@ public class SpawnManager : MonoBehaviour, INeedButton
     public int activeCount, numToSpawn = 10, poolSize = 10;
     public float spawnRate = 0.3f, spawnDelay = 1.0f;
 
-    private int spawnedCount;
+    private int _spawnedCount;
 
     private WaitForSeconds _waitForSpawnRate, _waitForSpawnDelay;
     private List<GameObject> _pooledObjects;
@@ -29,7 +29,7 @@ public class SpawnManager : MonoBehaviour, INeedButton
     public void StartSpawn(int amount)
     {
         numToSpawn = amount;
-        StartCoroutine(Spawner());
+        StartCoroutine(DelaySpawn());
     }
 
     private void CreatePool()
@@ -47,7 +47,7 @@ public class SpawnManager : MonoBehaviour, INeedButton
                 sum += prefabData.priority;
                 if (randomNumber < sum)
                 {
-                    GameObject obj = (GameObject)Instantiate(prefabData.prefab);
+                    GameObject obj = Instantiate(prefabData.prefab);
                     prefabData.creepData.totalSpawned += 1;
                     _pooledObjects.Add(obj);
                     obj.GetComponent<NavAgentBehavior>().destination = pathingToLocation;
@@ -58,11 +58,16 @@ public class SpawnManager : MonoBehaviour, INeedButton
         }
     }
 
+    private IEnumerator DelaySpawn()
+    {
+        yield return _waitForSpawnDelay;
+        StartCoroutine(Spawner());
+    }
 
     private IEnumerator Spawner()
     {
-        spawnedCount = 0;
-        while (spawnedCount < numToSpawn)
+        _spawnedCount = 0;
+        while (_spawnedCount < numToSpawn)
         {
             activeCount =  spawnerData.GetAliveCount();
             bool spawned = SpawnFromPool();
@@ -77,14 +82,15 @@ public class SpawnManager : MonoBehaviour, INeedButton
     private bool SpawnFromPool()
     {
         bool spawn = false;
-        for (var i = 0; i < _pooledObjects.Count; i++)
+        foreach (var obj in _pooledObjects)
         {
-            if (!_pooledObjects[i].activeInHierarchy)
+            if (!obj.activeInHierarchy)
             {
-                _pooledObjects[i].transform.position = transform.position;
-                _pooledObjects[i].transform.rotation = Quaternion.identity;
-                _pooledObjects[i].SetActive(true);
-                _pooledObjects[i].GetComponent<NavAgentBehavior>().Setup(pathingToLocation);
+                obj.transform.position = transform.position;
+                obj.transform.rotation = Quaternion.identity;
+                obj.SetActive(true);
+                obj.GetComponent<NavAgentBehavior>().Setup(pathingToLocation);
+                _spawnedCount++;
                 spawnerData.IncrementCreepsAliveCount();
                 creepSpawned.Invoke();
                 spawn = true;
@@ -104,7 +110,7 @@ public class SpawnManager : MonoBehaviour, INeedButton
             sum += prefabData.priority;
             if (randomNumber < sum)
             {
-                GameObject obj = (GameObject)Instantiate(prefabData.prefab);
+                GameObject obj = Instantiate(prefabData.prefab);
                 prefabData.creepData.totalSpawned += 1;
                 _pooledObjects.Add(obj);
                 obj.transform.position = transform.position;
@@ -112,6 +118,7 @@ public class SpawnManager : MonoBehaviour, INeedButton
                 obj.GetComponent<NavAgentBehavior>().destination = pathingToLocation;
                 obj.SetActive(true);
                 obj.GetComponent<NavAgentBehavior>().Setup(pathingToLocation);
+                _spawnedCount++;
                 spawnerData.IncrementCreepsAliveCount();
                 creepSpawned.Invoke();
                 break;

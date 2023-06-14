@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class GridGenerator : MonoBehaviour, INeedButton, IUpdateOnChange
 {
+    public PrefabDataList groundPrefabData;
+    public TransformArrayData grid;
     [SerializeField]
     private int width = 5;
     [SerializeField]
@@ -11,18 +13,18 @@ public class GridGenerator : MonoBehaviour, INeedButton, IUpdateOnChange
     [SerializeField]
     private int height = 1;
     [Range(0f, 1f)]
+    [Step(0.01f)]
     public float heightOffset = 1f;
-    public PrefabDataList groundPrefabData;
     private GameObject _groundPrefab;
     private Vector3 _prefabScale;
     
-    private Transform[,] _grid;
     private GameObject _ground;
 
     private WaitForFixedUpdate _wffu;
 
-    private void Start()
+    private void Awake()
     {
+        _prefabScale = groundPrefabData.GetRandomPrefab().transform.localScale;
         _wffu = new WaitForFixedUpdate();
         ResetGround();
     }
@@ -34,10 +36,9 @@ public class GridGenerator : MonoBehaviour, INeedButton, IUpdateOnChange
             return;
         }
 
-        _grid = new Transform[width, length];
+        grid.InitializeArraySize(width, length);
         for (int i = 0; i < width; i++) 
         {
-            int randomNumber = Random.Range(0, groundPrefabData.Size());
             _groundPrefab = groundPrefabData.GetRandomPrefab();
             _prefabScale = _groundPrefab.transform.localScale;
             for (int j = 0; j < length; j++)
@@ -53,19 +54,19 @@ public class GridGenerator : MonoBehaviour, INeedButton, IUpdateOnChange
 
                 cell.transform.SetParent(_ground.transform);
 
-                _grid[i, j] = cell.transform;
+                grid[i, j] = cell.transform;
             }
             
         }
         
-        var navMeshSurface = _ground.GetComponent<NavMeshSurface>();
-        if (navMeshSurface != null)
+        var navMeshSurface = _ground.GetComponent<NavMeshSurface>();if (navMeshSurface == null)
         {
-            navMeshSurface.collectObjects = CollectObjects.Volume;
-            navMeshSurface.size = new Vector3(width * _prefabScale.x, height + heightOffset + 3, length * _prefabScale.z);
-            navMeshSurface.center = new Vector3(0, 1, 0);
-            navMeshSurface.BuildNavMesh();
+            navMeshSurface = _ground.AddComponent<NavMeshSurface>();
         }
+        navMeshSurface.collectObjects = CollectObjects.Volume;
+        navMeshSurface.size = new Vector3(width * _prefabScale.x, height + heightOffset + 3, length * _prefabScale.z);
+        navMeshSurface.center = new Vector3(0, 1, 0);
+        navMeshSurface.BuildNavMesh();
     }
 
     public string GetButtonName()
@@ -86,8 +87,6 @@ public class GridGenerator : MonoBehaviour, INeedButton, IUpdateOnChange
         if(_ground == null)
         {
             _ground = new GameObject("Ground");
-            _ground.transform.position = new Vector3(0,0,0);
-            _ground.AddComponent<NavMeshSurface>();
         }
         else
         {
@@ -96,6 +95,7 @@ public class GridGenerator : MonoBehaviour, INeedButton, IUpdateOnChange
                 DestroyImmediate(child.gameObject);
             }
         }
+        _ground.transform.position = new Vector3(0,0,0);
         CreateGround();
     }
     
@@ -128,5 +128,4 @@ public class GridGenerator : MonoBehaviour, INeedButton, IUpdateOnChange
         yield return _wffu;
         ResetGround();
     }
-
 }
