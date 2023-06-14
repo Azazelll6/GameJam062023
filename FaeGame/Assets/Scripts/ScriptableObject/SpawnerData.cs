@@ -5,8 +5,7 @@ public class SpawnerData : ScriptableObject
 {
     public int creepsAliveCount;
     public IntData globalCreepsAliveCount;
-    public CreepData creep;
-    public GameObjectList creepPrefabs;
+    public PrefabDataList prefabDataList;
 
     public void ResetSpawner()
     {
@@ -20,20 +19,17 @@ public class SpawnerData : ScriptableObject
     
     public void IncrementCreepsAliveCount()
     {
-        creep.IncrementSpawnedTotal();
         globalCreepsAliveCount.UpdateValue(1);
         creepsAliveCount += 1;
     }
 
     public void CreepKilled()
     {
-        creep.IncrementKilledTotal();
         DecrementCreepsAliveCount();
     }
 
     public void CreepEscaped()
     {
-        creep.IncrementEscapedTotal();
         DecrementCreepsAliveCount();
     }
 
@@ -41,12 +37,6 @@ public class SpawnerData : ScriptableObject
     {
         globalCreepsAliveCount.UpdateValue(-1);
         creepsAliveCount -= 1;
-    }
-
-    public GameObject GetRandomPrefab()
-    {
-        var result = creepPrefabs[Random.Range(0, creepPrefabs.Size())];
-        return result;
     }
 
 }

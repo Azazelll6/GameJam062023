@@ -9,9 +9,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 87b77a5af3ae6604e947eb076c4591b9, type: 3}
-  m_Name: CreepPrefabList
+  m_Script: {fileID: 11500000, guid: edd177f25a8597f41b792e0681cd9459, type: 3}
+  m_Name: creepPrioList
   m_EditorClassIdentifier: 
-  gameObjectList:
-  - {fileID: 3923174340805334834, guid: aa16576f04b68fc4091c026f5e5cbe9b, type: 3}
-  - {fileID: 3923174340805334834, guid: 782f4fc6ba64e0d48a8e21ca230347a4, type: 3}
+  prefabDataList:
+  - {fileID: 11400000, guid: 6c7e85d01a941eb4dbe455ad60f6853f, type: 2}
+  - {fileID: 11400000, guid: 06aa1f3c817e6a3418fae252776ea564, type: 2}

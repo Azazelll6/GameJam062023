@@ -9,14 +9,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3f69c3f1c51aa8543b30e98018d6b44d, type: 3}
-  m_Name: SphereCreepData
+  m_Script: {fileID: 11500000, guid: edd177f25a8597f41b792e0681cd9459, type: 3}
+  m_Name: mapTileList
   m_EditorClassIdentifier: 
-  unitName: SphereCreep
-  type: TESTER
-  speed: 2.5
-  height: 1
-  radius: 0.25
-  totalKilled: 0
-  totalSpawned: 114
-  totalEscaped: 0
+  prefabDataList:
+  - {fileID: 11400000, guid: 2440290ebddabb346a3e4ad50133e510, type: 2}
+  - {fileID: 11400000, guid: 157ec81b331a24947a4661352e5b7cb6, type: 2}
