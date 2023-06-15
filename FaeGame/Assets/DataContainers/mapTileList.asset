@@ -13,7 +13,5 @@ MonoBehaviour:
   m_Name: mapTileList
   m_EditorClassIdentifier: 
   prefabDataList:
-  - {fileID: 11400000, guid: a1713c83c435f6e42ad01c8b1eb7ce29, type: 2}
-  - {fileID: 11400000, guid: f7b3c096cbafeef42900d7f6a8375eb5, type: 2}
-  - {fileID: 11400000, guid: ec2c3b434c4af674dbe999b7c9d63fd8, type: 2}
-  - {fileID: 11400000, guid: b7f324422804be844880f1ab7edb3f9b, type: 2}
+  - {fileID: 11400000, guid: 2440290ebddabb346a3e4ad50133e510, type: 2}
+  - {fileID: 11400000, guid: 157ec81b331a24947a4661352e5b7cb6, type: 2}
