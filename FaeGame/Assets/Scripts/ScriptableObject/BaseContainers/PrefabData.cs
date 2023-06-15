@@ -4,6 +4,5 @@ using UnityEngine;
 public class PrefabData : ScriptableObject
 {
     public GameObject prefab;
-    public CreepData creepData;
     public int priority;
 }

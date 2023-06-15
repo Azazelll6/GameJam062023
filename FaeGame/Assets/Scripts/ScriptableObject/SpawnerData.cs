@@ -3,7 +3,7 @@ using UnityEngine;
 [CreateAssetMenu (fileName = "SpawnerData", menuName = "Data/ManagerData/SpawnerData")]
 public class SpawnerData : ScriptableObject
 {
-    public int creepsAliveCount;
+    [HideInInspector] public int creepsAliveCount;
     public IntData globalCreepsAliveCount;
     public PrefabDataList prefabDataList;
 

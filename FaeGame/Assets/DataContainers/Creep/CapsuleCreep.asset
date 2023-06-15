@@ -9,9 +9,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: edd177f25a8597f41b792e0681cd9459, type: 3}
-  m_Name: creepPrioList
+  m_Script: {fileID: 11500000, guid: e19ad90cfcadac648b0742e754383bf9, type: 3}
+  m_Name: CapsuleCreep
   m_EditorClassIdentifier: 
-  prefabDataList:
-  - {fileID: 11400000, guid: 6c7e85d01a941eb4dbe455ad60f6853f, type: 2}
-  - {fileID: 11400000, guid: 06aa1f3c817e6a3418fae252776ea564, type: 2}
+  prefab: {fileID: 1995591112725303511, guid: 12d95f6b7b6a78841a6692da78a9ebfb, type: 3}
+  priority: 2
+  creepData: {fileID: 11400000, guid: d689cb7146f86124992237abede0aa6e, type: 2}

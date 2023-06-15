@@ -2,28 +2,59 @@
     "name": "Input Actions",
     "maps": [
         {
-            "name": "Keyboard/Mouse",
+            "name": "DefaultControls",
             "id": "cd80d4fe-90c5-4c87-8261-e74f911a9336",
             "actions": [
                 {
-                    "name": "New action",
+                    "name": "PrimaryPress",
                     "type": "Button",
-                    "id": "06371dcb-1406-4ce3-9feb-5517d3d807f6",
+                    "id": "1c111255-8c29-45c2-91a3-cd30b03296b5",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
-                    "initialStateCheck": false
+                    "initialStateCheck": true
+                },
+                {
+                    "name": "PrimaryPosition",
+                    "type": "Value",
+                    "id": "4e6968ca-6782-42c0-a62d-9a1986b97ded",
+                    "expectedControlType": "Vector2",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
                 }
             ],
             "bindings": [
                 {
-                    "name": "",
-                    "id": "01452d0b-337f-4021-9202-6800bb131d3e",
-                    "path": "",
+                    "name": "Button With One Modifier",
+                    "id": "4fb93571-6900-483f-97da-bbbb78c925d5",
+                    "path": "ButtonWithOneModifier",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "New action",
+                    "action": "PrimaryPress",
+                    "isComposite": true,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "f4ea272b-5821-4cbb-8ce6-3b7240f205ca",
+                    "path": "<Mouse>/leftButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard/Mouse",
+                    "action": "PrimaryPress",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "e989f2b3-7ad9-49c2-a0a2-4c85655c00ac",
+                    "path": "<Mouse>/position",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard/Mouse",
+                    "action": "PrimaryPosition",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

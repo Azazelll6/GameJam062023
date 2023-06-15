@@ -15,15 +15,16 @@ public class SpawnManager : MonoBehaviour, INeedButton
 
     private int _spawnedCount;
 
-    private WaitForSeconds _waitForSpawnRate, _waitForSpawnDelay;
+    private WaitForSeconds _waitForSpawnRate, _waitForSpawnDelay, _wfs;
     private List<GameObject> _pooledObjects;
 
     private void Start()
     {
         _waitForSpawnRate = new WaitForSeconds(spawnRate);
         _waitForSpawnDelay = new WaitForSeconds(spawnDelay);
+        _wfs = new WaitForSeconds(1);
         spawnerData.ResetSpawner();
-        CreatePool();
+        StartCoroutine(delayPoolCreation());
     }
 
     public void StartSpawn(int amount)
@@ -32,6 +33,13 @@ public class SpawnManager : MonoBehaviour, INeedButton
         StartCoroutine(DelaySpawn());
     }
 
+    private IEnumerator delayPoolCreation()
+    {
+        yield return _wfs;
+        CreatePool();
+    }
+    
+    
     private void CreatePool()
     {
         _pooledObjects = new List<GameObject>();
@@ -42,13 +50,13 @@ public class SpawnManager : MonoBehaviour, INeedButton
         {
             int randomNumber = Random.Range(0, totalPriority);
             int sum = 0;
-            foreach (PrefabData prefabData in spawnerData.prefabDataList.prefabDataList)
+            foreach (CreepPrefabData creepPrefabData in spawnerData.prefabDataList.prefabDataList)
             {
-                sum += prefabData.priority;
+                sum += creepPrefabData.priority;
                 if (randomNumber < sum)
                 {
-                    GameObject obj = Instantiate(prefabData.prefab);
-                    prefabData.creepData.totalSpawned += 1;
+                    GameObject obj = Instantiate(creepPrefabData.prefab);
+                    creepPrefabData.creepData.totalSpawned += 1;
                     _pooledObjects.Add(obj);
                     obj.GetComponent<NavAgentBehavior>().destination = pathingToLocation;
                     obj.SetActive(false);
@@ -105,13 +113,13 @@ public class SpawnManager : MonoBehaviour, INeedButton
         int totalPriority = spawnerData.prefabDataList.GetPriority();
         int randomNumber = Random.Range(0, totalPriority);
         int sum = 0;
-        foreach (PrefabData prefabData in spawnerData.prefabDataList.prefabDataList)
+        foreach (CreepPrefabData creepPrefabData in spawnerData.prefabDataList.prefabDataList)
         {
-            sum += prefabData.priority;
+            sum += creepPrefabData.priority;
             if (randomNumber < sum)
             {
-                GameObject obj = Instantiate(prefabData.prefab);
-                prefabData.creepData.totalSpawned += 1;
+                GameObject obj = Instantiate(creepPrefabData.prefab);
+                creepPrefabData.creepData.totalSpawned += 1;
                 _pooledObjects.Add(obj);
                 obj.transform.position = transform.position;
                 obj.transform.rotation = Quaternion.identity;

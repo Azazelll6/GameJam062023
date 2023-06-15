@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b694b975862680a4f8eb38cd85488923, type: 3}
   m_Name: Spawner2
   m_EditorClassIdentifier: 
-  creepsAliveCount: 9
+  creepsAliveCount: 0
   globalCreepsAliveCount: {fileID: 11400000, guid: 3f29e577c60f0c8499f7036324c30f2a, type: 2}
-  prefabDataList: {fileID: 11400000, guid: ef980471e66a9e849a55d09567a878e7, type: 2}
+  prefabDataList: {fileID: 11400000, guid: cd62cac15cae9684db59e02779b46848, type: 2}

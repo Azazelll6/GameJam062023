@@ -9,14 +9,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3f69c3f1c51aa8543b30e98018d6b44d, type: 3}
-  m_Name: SphereCreepData
+  m_Script: {fileID: 11500000, guid: 30d7e2533d2ef4940b713dbe43c17ae6, type: 3}
+  m_Name: ClickData
   m_EditorClassIdentifier: 
-  unitName: SphereCreep
-  type: TESTER
-  speed: 2.5
-  height: 1
-  radius: 0.25
-  totalKilled: 0
-  totalSpawned: 114
-  totalEscaped: 0
+  timeStart: 0
+  timeEnd: 0
+  force: 0
+  positionStart: {x: 0, y: 0}
+  positionEnd: {x: 0, y: 0}
+  direction: {x: 0, y: 0}

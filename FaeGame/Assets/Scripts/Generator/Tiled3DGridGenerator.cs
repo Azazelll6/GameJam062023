@@ -1,29 +1,33 @@
 using System.Collections;
-using Unity.AI.Navigation;
+using System.Collections.Generic;
 using UnityEngine;
 
-public class GridGenerator : MonoBehaviour, INeedButton, IUpdateOnChange
+[RequireComponent(typeof(Generate3DNavMeshSurface))]
+public class Tiled3DGridGenerator : MonoBehaviour, INeedButton
 {
+    private Generate3DNavMeshSurface _navMeshGen;
     public PrefabDataList groundPrefabData;
     public TransformArrayData grid;
+    [Range(0f, 1f)]
+    [Step(0.01f)]
+    public float heightOffset = 1f;
     [SerializeField]
     private int width = 5;
     [SerializeField]
     private int length = 10;
     [SerializeField]
     private int height = 1;
-    [Range(0f, 1f)]
-    [Step(0.01f)]
-    public float heightOffset = 1f;
-    private GameObject _groundPrefab;
-    private Vector3 _prefabScale;
     
-    private GameObject _ground;
-
+    private GameObject _ground, _groundPrefab;
+    private Vector3 _prefabScale;
+    private int _prevWidth, _prevLength, _prevHeight;
+    private float _prevHeightOffset, _resetDelay;
+    private bool _isResetting;
     private WaitForFixedUpdate _wffu;
 
     private void Awake()
     {
+        _navMeshGen = GetComponent<Generate3DNavMeshSurface>();
         _prefabScale = groundPrefabData.GetRandomPrefab().transform.localScale;
         _wffu = new WaitForFixedUpdate();
         ResetGround();
@@ -56,27 +60,8 @@ public class GridGenerator : MonoBehaviour, INeedButton, IUpdateOnChange
 
                 grid[i, j] = cell.transform;
             }
-            
         }
-        
-        var navMeshSurface = _ground.GetComponent<NavMeshSurface>();if (navMeshSurface == null)
-        {
-            navMeshSurface = _ground.AddComponent<NavMeshSurface>();
-        }
-        navMeshSurface.collectObjects = CollectObjects.Volume;
-        navMeshSurface.size = new Vector3(width * _prefabScale.x, height + heightOffset + 3, length * _prefabScale.z);
-        navMeshSurface.center = new Vector3(0, 1, 0);
-        navMeshSurface.BuildNavMesh();
-    }
-
-    public string GetButtonName()
-    {
-        return "Generate New";
-    }
-    
-    public void ButtonAction()
-    {
-        StartCoroutine(DelayedResetGround());
+        _navMeshGen.BuildNavMeshSurfaceToParent(width * _prefabScale.x, height + heightOffset + 3, length * _prefabScale.z, _ground);
     }
 
     [ContextMenu("Reset Ground")]
@@ -115,17 +100,36 @@ public class GridGenerator : MonoBehaviour, INeedButton, IUpdateOnChange
         }
     }
 
+    public string GetButtonName()
+    {
+        return "Generate New";
+    }
+    
+    public void ButtonAction()
+    {
+        if (_isResetting) return;
+        StartCoroutine(DelayedResetGround());
+    }
+    
+/* Use this only to find the height offset you want. It duplicates the grid objects and breaks the navmesh. */
     public void OnValidate()
     {
-        if(Application.isPlaying)
+        _resetDelay = 0.5f;
+        if(Application.isPlaying && (_prevWidth != width || _prevLength != length || _prevHeight != height || _prevHeightOffset != heightOffset))
         {
+            _prevWidth = width;
+            _prevLength = length;
+            _prevHeight = height;
+            _prevHeightOffset = heightOffset;
             StartCoroutine(DelayedResetGround());
         }
     }
 
     private IEnumerator DelayedResetGround()
     {
+        _isResetting = true;
         yield return _wffu;
         ResetGround();
+        _isResetting = false;
     }
 }

@@ -24,28 +24,59 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
     ""name"": ""Input Actions"",
     ""maps"": [
         {
-            ""name"": ""Keyboard/Mouse"",
+            ""name"": ""DefaultControls"",
             ""id"": ""cd80d4fe-90c5-4c87-8261-e74f911a9336"",
             ""actions"": [
                 {
-                    ""name"": ""New action"",
+                    ""name"": ""PrimaryPress"",
                     ""type"": ""Button"",
-                    ""id"": ""06371dcb-1406-4ce3-9feb-5517d3d807f6"",
+                    ""id"": ""1c111255-8c29-45c2-91a3-cd30b03296b5"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """",
-                    ""initialStateCheck"": false
+                    ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""PrimaryPosition"",
+                    ""type"": ""Value"",
+                    ""id"": ""4e6968ca-6782-42c0-a62d-9a1986b97ded"",
+                    ""expectedControlType"": ""Vector2"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
                 }
             ],
             ""bindings"": [
                 {
-                    ""name"": """",
-                    ""id"": ""01452d0b-337f-4021-9202-6800bb131d3e"",
-                    ""path"": """",
+                    ""name"": ""Button With One Modifier"",
+                    ""id"": ""4fb93571-6900-483f-97da-bbbb78c925d5"",
+                    ""path"": ""ButtonWithOneModifier"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""New action"",
+                    ""action"": ""PrimaryPress"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""f4ea272b-5821-4cbb-8ce6-3b7240f205ca"",
+                    ""path"": ""<Mouse>/leftButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard/Mouse"",
+                    ""action"": ""PrimaryPress"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""e989f2b3-7ad9-49c2-a0a2-4c85655c00ac"",
+                    ""path"": ""<Mouse>/position"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard/Mouse"",
+                    ""action"": ""PrimaryPosition"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -71,9 +102,10 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
         }
     ]
 }");
-        // Keyboard/Mouse
-        m_KeyboardMouse = asset.FindActionMap("Keyboard/Mouse", throwIfNotFound: true);
-        m_KeyboardMouse_Newaction = m_KeyboardMouse.FindAction("New action", throwIfNotFound: true);
+        // DefaultControls
+        m_DefaultControls = asset.FindActionMap("DefaultControls", throwIfNotFound: true);
+        m_DefaultControls_PrimaryPress = m_DefaultControls.FindAction("PrimaryPress", throwIfNotFound: true);
+        m_DefaultControls_PrimaryPosition = m_DefaultControls.FindAction("PrimaryPosition", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -132,51 +164,59 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
         return asset.FindBinding(bindingMask, out action);
     }
 
-    // Keyboard/Mouse
-    private readonly InputActionMap m_KeyboardMouse;
-    private List<IKeyboardMouseActions> m_KeyboardMouseActionsCallbackInterfaces = new List<IKeyboardMouseActions>();
-    private readonly InputAction m_KeyboardMouse_Newaction;
-    public struct KeyboardMouseActions
+    // DefaultControls
+    private readonly InputActionMap m_DefaultControls;
+    private List<IDefaultControlsActions> m_DefaultControlsActionsCallbackInterfaces = new List<IDefaultControlsActions>();
+    private readonly InputAction m_DefaultControls_PrimaryPress;
+    private readonly InputAction m_DefaultControls_PrimaryPosition;
+    public struct DefaultControlsActions
     {
         private @InputActions m_Wrapper;
-        public KeyboardMouseActions(@InputActions wrapper) { m_Wrapper = wrapper; }
-        public InputAction @Newaction => m_Wrapper.m_KeyboardMouse_Newaction;
-        public InputActionMap Get() { return m_Wrapper.m_KeyboardMouse; }
+        public DefaultControlsActions(@InputActions wrapper) { m_Wrapper = wrapper; }
+        public InputAction @PrimaryPress => m_Wrapper.m_DefaultControls_PrimaryPress;
+        public InputAction @PrimaryPosition => m_Wrapper.m_DefaultControls_PrimaryPosition;
+        public InputActionMap Get() { return m_Wrapper.m_DefaultControls; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
         public bool enabled => Get().enabled;
-        public static implicit operator InputActionMap(KeyboardMouseActions set) { return set.Get(); }
-        public void AddCallbacks(IKeyboardMouseActions instance)
+        public static implicit operator InputActionMap(DefaultControlsActions set) { return set.Get(); }
+        public void AddCallbacks(IDefaultControlsActions instance)
         {
-            if (instance == null || m_Wrapper.m_KeyboardMouseActionsCallbackInterfaces.Contains(instance)) return;
-            m_Wrapper.m_KeyboardMouseActionsCallbackInterfaces.Add(instance);
-            @Newaction.started += instance.OnNewaction;
-            @Newaction.performed += instance.OnNewaction;
-            @Newaction.canceled += instance.OnNewaction;
+            if (instance == null || m_Wrapper.m_DefaultControlsActionsCallbackInterfaces.Contains(instance)) return;
+            m_Wrapper.m_DefaultControlsActionsCallbackInterfaces.Add(instance);
+            @PrimaryPress.started += instance.OnPrimaryPress;
+            @PrimaryPress.performed += instance.OnPrimaryPress;
+            @PrimaryPress.canceled += instance.OnPrimaryPress;
+            @PrimaryPosition.started += instance.OnPrimaryPosition;
+            @PrimaryPosition.performed += instance.OnPrimaryPosition;
+            @PrimaryPosition.canceled += instance.OnPrimaryPosition;
         }
 
-        private void UnregisterCallbacks(IKeyboardMouseActions instance)
+        private void UnregisterCallbacks(IDefaultControlsActions instance)
         {
-            @Newaction.started -= instance.OnNewaction;
-            @Newaction.performed -= instance.OnNewaction;
-            @Newaction.canceled -= instance.OnNewaction;
+            @PrimaryPress.started -= instance.OnPrimaryPress;
+            @PrimaryPress.performed -= instance.OnPrimaryPress;
+            @PrimaryPress.canceled -= instance.OnPrimaryPress;
+            @PrimaryPosition.started -= instance.OnPrimaryPosition;
+            @PrimaryPosition.performed -= instance.OnPrimaryPosition;
+            @PrimaryPosition.canceled -= instance.OnPrimaryPosition;
         }
 
-        public void RemoveCallbacks(IKeyboardMouseActions instance)
+        public void RemoveCallbacks(IDefaultControlsActions instance)
         {
-            if (m_Wrapper.m_KeyboardMouseActionsCallbackInterfaces.Remove(instance))
+            if (m_Wrapper.m_DefaultControlsActionsCallbackInterfaces.Remove(instance))
                 UnregisterCallbacks(instance);
         }
 
-        public void SetCallbacks(IKeyboardMouseActions instance)
+        public void SetCallbacks(IDefaultControlsActions instance)
         {
-            foreach (var item in m_Wrapper.m_KeyboardMouseActionsCallbackInterfaces)
+            foreach (var item in m_Wrapper.m_DefaultControlsActionsCallbackInterfaces)
                 UnregisterCallbacks(item);
-            m_Wrapper.m_KeyboardMouseActionsCallbackInterfaces.Clear();
+            m_Wrapper.m_DefaultControlsActionsCallbackInterfaces.Clear();
             AddCallbacks(instance);
         }
     }
-    public KeyboardMouseActions @KeyboardMouse => new KeyboardMouseActions(this);
+    public DefaultControlsActions @DefaultControls => new DefaultControlsActions(this);
     private int m_KeyboardMouseSchemeIndex = -1;
     public InputControlScheme KeyboardMouseScheme
     {
@@ -186,8 +226,9 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
             return asset.controlSchemes[m_KeyboardMouseSchemeIndex];
         }
     }
-    public interface IKeyboardMouseActions
+    public interface IDefaultControlsActions
     {
-        void OnNewaction(InputAction.CallbackContext context);
+        void OnPrimaryPress(InputAction.CallbackContext context);
+        void OnPrimaryPosition(InputAction.CallbackContext context);
     }
 }
