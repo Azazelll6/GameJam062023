@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6a34ba686990c8a4184b909b487a69ba, type: 3}
   m_Name: TILE_1
   m_EditorClassIdentifier: 
-  environmentPrefab: {fileID: 0}
-  occupiedPrefab: {fileID: 0}
+  environmentPrefab: {fileID: 3596630296530687068, guid: 8aabb6923fda1f04b826a1539a0f4a03, type: 3}
+  occupiedPrefab: {fileID: 5653190799274710051, guid: a2255e260418d114cb6365ab62b22f00, type: 3}
   transform: {fileID: 0}
   priority: 0

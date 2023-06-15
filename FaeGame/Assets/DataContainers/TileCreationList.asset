@@ -12,4 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8e9366625c1f7b4589c55b2616af0d5, type: 3}
   m_Name: TileCreationList
   m_EditorClassIdentifier: 
-  tileDataList: []
+  tileDataList:
+  - {fileID: 11400000, guid: 95c9b22945a8d96408a6cce32eeef391, type: 2}
