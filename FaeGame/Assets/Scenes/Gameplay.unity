@@ -398,8 +398,8 @@ MonoBehaviour:
   groundPrefabData: {fileID: 11400000, guid: b9663a8281fca8949b0e4083cf6f4c05, type: 2}
   grid: {fileID: 11400000, guid: e9b2f06679731e1408affdc84d97d127, type: 2}
   heightOffset: 0.2
-  width: 30
-  length: 30
+  width: 24
+  length: 24
   height: 1
 --- !u!114 &444442979
 MonoBehaviour:
