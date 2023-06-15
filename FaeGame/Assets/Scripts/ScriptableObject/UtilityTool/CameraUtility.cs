@@ -1,22 +1,29 @@
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "CameraUtility", menuName = "UtilitySO/CameraUtil")]
-public class CameraUtility : ScriptableObject
+public class CameraUtility : ScriptableObject, IDrawGizmo
 {
+    private Ray _ray;
+    
     public Vector3 ScreenToWorld(Camera camera, Vector3 position)
     {
         position.z = camera.nearClipPlane;
         return camera.ScreenToWorldPoint(position);
     }
 
-    public Vector3 ScreenPointToRay(Camera camera, Vector3 position)
+    public RaycastHit PointToRay(Camera camera, Vector3 position)
     {
         RaycastHit hit;
-        Ray ray = camera.ScreenPointToRay(position);
-        Debug.Log("RAY?" + ray);
-        if (!Physics.Raycast(ray, out hit)) return Vector3.zero;
-        Debug.Log("POINT?" + hit.point);
-        Debug.DrawRay(ray.origin, ray.direction * 20, Color.red, 10);
-        return hit.point;
+        _ray = camera.ScreenPointToRay(position);
+        if (!Physics.Raycast(_ray, out hit)) return default;
+        OnDrawGizmos();
+        return hit;
+    }
+
+    public void OnDrawGizmos()
+    {
+#if UNITY_EDITOR
+        Debug.DrawRay(_ray.origin, _ray.direction * 100, Color.red, 10);
+#endif
     }
 }

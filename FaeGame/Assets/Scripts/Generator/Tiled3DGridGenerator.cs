@@ -21,7 +21,7 @@ public class Tiled3DGridGenerator : MonoBehaviour, INeedButton
     private GameObject _ground, _groundPrefab;
     private Vector3 _prefabScale;
     private int _prevWidth, _prevLength, _prevHeight;
-    private float _prevHeightOffset, _resetDelay;
+    private float _prevHeightOffset;//, _resetDelay;
     private bool _isResetting;
     private WaitForFixedUpdate _wffu;
 
@@ -111,7 +111,7 @@ public class Tiled3DGridGenerator : MonoBehaviour, INeedButton
         StartCoroutine(DelayedResetGround());
     }
     
-/* Use this only to find the height offset you want. It duplicates the grid objects and breaks the navmesh. */
+/* Use this only to find the height offset you want. It duplicates the grid objects and breaks the navmesh. 
     public void OnValidate()
     {
         _resetDelay = 0.5f;
@@ -124,7 +124,7 @@ public class Tiled3DGridGenerator : MonoBehaviour, INeedButton
             StartCoroutine(DelayedResetGround());
         }
     }
-
+*/
     private IEnumerator DelayedResetGround()
     {
         _isResetting = true;

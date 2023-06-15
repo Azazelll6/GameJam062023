@@ -18,6 +18,7 @@ public class UIInterface : MonoBehaviour
 
     public GameObject prefabObj;
     private GameObject _clone;
+    private MeshBehavior _cloneMeshBehavior;
     
     private void Awake()
     {
@@ -29,25 +30,18 @@ public class UIInterface : MonoBehaviour
         controls.GameInputsObj.DefaultControls.PrimaryPosition.performed += context => _clickPosition = context.ReadValue<Vector2>();
     }
     
-    private void OnEnable()
-    {
-        controls.GameInputsObj.DefaultControls.PrimaryPress.Enable();
-    }
+    private void OnEnable() => controls.GameInputsObj.DefaultControls.Enable();
     
-    private void OnDisable()
-    {
-        controls.GameInputsObj.DefaultControls.PrimaryPress.Disable();
-    }
+    private void OnDisable() => controls.GameInputsObj.DefaultControls.Disable();
 
     private void OnClick(InputAction.CallbackContext context)
     {
+        GetHitPointPosition();
         _isHolding = true;
-        controls.GameInputsObj.DefaultControls.PrimaryPosition.Enable();
         _clickData.positionStart = _clickPosition;
-        Debug.Log("CAM POSITION" + GetCamPosition());
-        Debug.Log("HIT POSITION" + GetHitPointPosition());
-        _clone = Instantiate(prefabObj, GetHitPointPosition(), Quaternion.identity);
-        
+        _clone = Instantiate(prefabObj, GetHitPointPosition(), prefabObj.transform.rotation);
+        _clone.GetComponentInChildren<Collider>().enabled = false;
+        _cloneMeshBehavior = _clone.GetComponentInChildren<MeshBehavior>();
         StartCoroutine(UpdateMousePosition());
     }
     
@@ -55,118 +49,36 @@ public class UIInterface : MonoBehaviour
     {
         while (_isHolding)
         {
-            _clickData.positionCurrent = _clickPosition;
+            _clone.transform.position = GetHitPointPosition() + new Vector3(0, _clone.transform.localScale.y, 0);
             yield return _waitForFixedUpdate;
         }
     }
-
-
+    
     private void OffClick(InputAction.CallbackContext context)
     {
         _isHolding = false;
-        controls.GameInputsObj.DefaultControls.PrimaryPosition.Disable();
         _clickData.positionEnd = _clickData.positionCurrent;
-        //SendClickData(_clickData);
-    }
-
-    private Vector3 GetCamPosition()
-    {
-        Vector3 camPosition = _cameraUtility.ScreenToWorld(_cameraMain, _clickPosition);
-        return camPosition;
+        Collider hitObj = GetHitObj();
+        if (hitObj != null && hitObj.gameObject.layer == LayerMask.NameToLayer("Ground"))
+        {
+            
+        }
+        else
+        {
+            Destroy(_clone);
+        }
+        _clone.GetComponentInChildren<Collider>().enabled = true;
     }
 
     private Vector3 GetHitPointPosition()
     {
-        var hitPosition = _cameraUtility.ScreenPointToRay(_cameraMain, GetCamPosition());
-        return hitPosition;
-    }
-    
-    
-/*    
-    private Vector2 move, movement;
-    public FloatData speed;
-    private void Awake()
-    {
-        controls.GameInputsObj.KeyActionMap.Vertical.performed += ctx => move = ctx.ReadValue<Vector2>();
-        controls.GameInputsObj.KeyActionMap.Vertical.canceled += ctx => move = Vector2.zero;
-    }
- 
-    private void OnEnable()
-    {
-        controls.GameInputsObj.KeyActionMap.Enable();
-    }
-    private void OnDisable()
-    {
-        controls.GameInputsObj.KeyActionMap.Disable();
-    }
-    
-    private void FixedUpdate()
-    {
-        movement.Set(move.x, move.y);
-        movement *= speed.value * UnityEngine.Time.deltaTime;
-        transform.Translate(movement, Space.World);
+        var hit = _cameraUtility.PointToRay(_cameraMain, _clickPosition);
+        return hit.point;
     }
 
-
-
-using UnityEngine;
-using UnityEngine.Events;
-using UnityEngine.InputSystem;
-
-[DefaultExecutionOrder(-5)]
-public class TouchSwipeBehaviour : MonoBehaviour
-{
-    public UnityAction<FromTouchData> sendTouchData;
-    public GameInputsSO controls;
-    public float minimumDistance = .2f, maximumTime = 1f;
-    private FromTouchData touchData;
-    private Camera cameraMain;
-    private CameraUtility cameraUtility;
-    
-    private void Awake()
+    private Collider GetHitObj()
     {
-        touchData = ScriptableObject.CreateInstance<FromTouchData>();
-        cameraMain = Camera.main;
-        cameraUtility = ScriptableObject.CreateInstance<CameraUtility>();
-        controls.GameInputsObj.Touch.PrimaryContact.started += StartTouchPrimary;
-        controls.GameInputsObj.Touch.PrimaryContact.canceled += EndTouchPrimary;
+        var hit = _cameraUtility.PointToRay(_cameraMain, _clickPosition);
+        return hit.collider;
     }
-    private void OnEnable()
-    {
-        controls.GameInputsObj.Touch.Enable();
-    }
-    private void OnDisable()
-    {
-        controls.GameInputsObj.Touch.Enable();
-    }
-    private void StartTouchPrimary(InputAction.CallbackContext ctx)
-    {
-        touchData.positionStart = GetCtx(ctx);
-        touchData.timeStart = (float)ctx.startTime;
-    }
-    
-    private void EndTouchPrimary(InputAction.CallbackContext ctx)
-    {
-        touchData.positionEnd = GetCtx(ctx);
-        touchData.timeEnd = (float)ctx.time;
-        GetSwipeDirectionAndTime();
-        sendTouchData(touchData);
-    }
-    private Vector3 GetCtx(InputAction.CallbackContext ctx)
-    {
-        var camPosition = cameraUtility.ScreenToWorld(cameraMain,
-            controls.GameInputsObj.Touch.PrimaryPositition.ReadValue<Vector2>());
-        return camPosition;
-    }
-    private void GetSwipeDirectionAndTime()
-    {
-        if (!(Vector3.Distance(touchData.positionStart, touchData.positionEnd) >= minimumDistance) ||
-            !((touchData.timeEnd - touchData.timeStart) <= maximumTime)) return;
-        var vectorDir = touchData.positionEnd - touchData.positionStart;
-        touchData.direction = new Vector2(vectorDir.x, vectorDir.y);
-        touchData.force = touchData.timeEnd - touchData.timeStart;
-    }
-}
-
-*/
 }
