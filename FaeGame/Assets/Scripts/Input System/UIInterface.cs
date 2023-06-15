@@ -61,7 +61,7 @@ public class UIInterface : MonoBehaviour
         Collider hitObj = GetHitObj();
         if (hitObj != null && hitObj.gameObject.layer == LayerMask.NameToLayer("Ground"))
         {
-            
+            GroundBehavior groundBehavior = hitObj.GetComponent<GroundBehavior>();
         }
         else
         {

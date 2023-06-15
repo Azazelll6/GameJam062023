@@ -6,8 +6,9 @@ using UnityEngine;
 public class Tiled3DGridGenerator : MonoBehaviour, INeedButton
 {
     private Generate3DNavMeshSurface _navMeshGen;
-    public PrefabDataList groundPrefabData;
-    public TransformArrayData grid;
+    public TileDataList groundTileData;
+    public TileArrayData grid;
+    private TileData _tileData;
     [Range(0f, 1f)]
     [Step(0.01f)]
     public float heightOffset = 1f;
@@ -18,8 +19,9 @@ public class Tiled3DGridGenerator : MonoBehaviour, INeedButton
     [SerializeField]
     private int height = 1;
     
-    private GameObject _ground, _groundPrefab;
+    private GameObject _groundParent, _groundPrefab, _occupiedPrefab;
     private Vector3 _prefabScale;
+    private GroundBehavior _groundBehavior;
     private int _prevWidth, _prevLength, _prevHeight;
     private float _prevHeightOffset;//, _resetDelay;
     private bool _isResetting;
@@ -27,8 +29,8 @@ public class Tiled3DGridGenerator : MonoBehaviour, INeedButton
 
     private void Awake()
     {
+        _occupiedPrefab = groundTileData.GetOccupiedPrefab();
         _navMeshGen = GetComponent<Generate3DNavMeshSurface>();
-        _prefabScale = groundPrefabData.GetRandomPrefab().transform.localScale;
         _wffu = new WaitForFixedUpdate();
         ResetGround();
     }
@@ -43,10 +45,13 @@ public class Tiled3DGridGenerator : MonoBehaviour, INeedButton
         grid.InitializeArraySize(width, length);
         for (int i = 0; i < width; i++) 
         {
-            _groundPrefab = groundPrefabData.GetRandomPrefab();
-            _prefabScale = _groundPrefab.transform.localScale;
             for (int j = 0; j < length; j++)
             {
+                _groundPrefab = groundTileData.GetRandomPrefab();
+                _tileData = ScriptableObject.CreateInstance<TileData>();
+                _prefabScale = _groundPrefab.transform.localScale;
+                _groundBehavior = _groundPrefab.GetComponent<GroundBehavior>();
+                
                 float randomHeight = Random.Range(0, heightOffset);
                 GameObject cell = Instantiate(_groundPrefab,
                         new Vector3(i * _prefabScale.x - (width * _prefabScale.x) / 2f + _prefabScale.x / 2f,
@@ -55,48 +60,52 @@ public class Tiled3DGridGenerator : MonoBehaviour, INeedButton
                         Quaternion.identity);
 
                 cell.transform.localScale = new Vector3(_prefabScale.x, height, _prefabScale.z);
-
-                cell.transform.SetParent(_ground.transform);
-
-                grid[i, j] = cell.transform;
+                cell.transform.SetParent(_groundParent.transform);
+                
+                _tileData.transform = cell.transform;
+                _tileData.environmentPrefab = _groundPrefab;
+                _tileData.occupiedPrefab = _occupiedPrefab;
+                
+                grid[i, j] = _tileData;
+                _groundBehavior.SetGridCoord(i, j, grid);
             }
         }
-        _navMeshGen.BuildNavMeshSurfaceToParent(width * _prefabScale.x, height + heightOffset + 3, length * _prefabScale.z, _ground);
+        _navMeshGen.BuildNavMeshSurfaceToParent(width * _prefabScale.x, height + heightOffset + 3, length * _prefabScale.z, _groundParent);
     }
 
     [ContextMenu("Reset Ground")]
     public void ResetGround()
     {
-        _ground = GameObject.Find("Ground");
+        _groundParent = GameObject.Find("Ground");
         
-        if(_ground == null)
+        if(_groundParent == null)
         {
-            _ground = new GameObject("Ground");
+            _groundParent = new GameObject("Ground");
         }
         else
         {
-            foreach (Transform child in _ground.transform)
+            foreach (Transform child in _groundParent.transform)
             {
                 DestroyImmediate(child.gameObject);
             }
         }
-        _ground.transform.position = new Vector3(0,0,0);
+        _groundParent.transform.position = new Vector3(0,0,0);
         CreateGround();
     }
     
     private void OnDisable()
     {
-        if (_ground != null)
+        if (_groundParent != null)
         {
-            Destroy(_ground);
+            Destroy(_groundParent);
         }
     }
 
     private void OnDestroy()
     {
-        if (_ground != null)
+        if (_groundParent != null)
         {
-            Destroy(_ground);
+            Destroy(_groundParent);
         }
     }
 

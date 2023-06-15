@@ -13,7 +13,8 @@ GameObject:
   - component: {fileID: 7637841675947152015}
   - component: {fileID: 1009223873798880009}
   - component: {fileID: -840083807936793206}
-  m_Layer: 25
+  - component: {fileID: 3554489463795076682}
+  m_Layer: 28
   m_Name: TestMeshBLACK
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -118,3 +119,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3d5630fe47a2ed3428de2a165f941182, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &3554489463795076682
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5653190799274710051}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d279196f4f02f234daca47f7886f0754, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gridLocation: {x: 0, y: 0}

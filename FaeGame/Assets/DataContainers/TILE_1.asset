@@ -9,9 +9,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: edd177f25a8597f41b792e0681cd9459, type: 3}
-  m_Name: mapTileList
+  m_Script: {fileID: 11500000, guid: 6a34ba686990c8a4184b909b487a69ba, type: 3}
+  m_Name: TILE_1
   m_EditorClassIdentifier: 
-  prefabDataList:
-  - {fileID: 11400000, guid: 2440290ebddabb346a3e4ad50133e510, type: 2}
-  - {fileID: 11400000, guid: 157ec81b331a24947a4661352e5b7cb6, type: 2}
+  environmentPrefab: {fileID: 0}
+  occupiedPrefab: {fileID: 0}
+  transform: {fileID: 0}
+  priority: 0

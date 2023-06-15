@@ -11,9 +11,9 @@ public class TransformArrayData : ScriptableObject, IDrawGizmo
         set => Array2D[i,j] = value;
     }
 
-    public void InitializeArraySize(int x, int y)
+    public void InitializeArraySize(int sizeX, int sizeY)
     {
-        Array2D = new Transform[x, y];
+        Array2D = new Transform[sizeX, sizeY];
     }
     
     public Vector3 GetMinPosition()
