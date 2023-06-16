@@ -12,7 +12,6 @@ GameObject:
   - component: {fileID: 6703262944223594132}
   - component: {fileID: 7637841675947152015}
   - component: {fileID: 1009223873798880009}
-  - component: {fileID: -840083807936793206}
   - component: {fileID: 3554489463795076682}
   m_Layer: 28
   m_Name: TestMeshBLACK
@@ -107,18 +106,6 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &-840083807936793206
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5653190799274710051}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3d5630fe47a2ed3428de2a165f941182, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &3554489463795076682
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -133,8 +120,3 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gridLocation: {x: 0, y: 0}
   tileData: {fileID: 0}
-  prefab1: {fileID: 3596630296530687068, guid: 8aabb6923fda1f04b826a1539a0f4a03, type: 3}
-  prefab2: {fileID: 5653190799274710051}
-  transform: {fileID: 0}
-  position: {x: 0, y: 0, z: 0}
-  priority: 0
