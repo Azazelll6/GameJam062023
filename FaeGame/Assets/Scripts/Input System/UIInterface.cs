@@ -49,7 +49,6 @@ public class UIInterface : MonoBehaviour
     {
         while (_isHolding)
         {
-            
             _clone.transform.position = GetHitPointPosition() + new Vector3(0, _clone.transform.localScale.y, 0);
             yield return _waitForFixedUpdate;
         }
@@ -71,8 +70,7 @@ public class UIInterface : MonoBehaviour
 
         Destroy(_clone);
     }
-
-
+    
     private Vector3 GetHitPointPosition()
     {
         var hit = _cameraUtility.PointToRay(_cameraMain, _clickPosition);
