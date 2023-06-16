@@ -32,7 +32,7 @@ public class TowerBuildManager : BuildingManager
 
     public override void Build()
     {
-        PlaceAtGridPoint(1, 1, _towerPrefab);
+        
     }
 
     private void PlaceAtGridPoint(int x, int y, GameObject prefab)
