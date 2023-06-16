@@ -59,7 +59,7 @@ public class Tiled3DGridGenerator : MonoBehaviour, INeedButton
                 Bounds bounds = meshRenderer.bounds;
                 _prefabSize = bounds.size;
                 var localScale = _groundPrefab.transform.localScale;
-                _prefabSize.x =
+                //_prefabSize.x =
                 Debug.Log($"LOCALSCALE{localScale}");
                 Debug.Log($"SIZE{_prefabSize}");
 
