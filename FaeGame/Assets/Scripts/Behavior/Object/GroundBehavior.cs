@@ -1,7 +1,7 @@
 using UnityEditor;
 using UnityEngine;
 
-
+[RequireComponent(typeof(BoxCollider))]
 public class GroundBehavior : MonoBehaviour, IDrawGizmo
 {
     public Vector2Int gridLocation;
@@ -25,17 +25,6 @@ public class GroundBehavior : MonoBehaviour, IDrawGizmo
 
     public void OnDrawGizmos()
     {
-        if (tileData == null)
-        {
-            Debug.LogError("tileData is null");
-            return;
-        }
-
-        if (tileData.transform == null)
-        {
-            Debug.LogError("tileData.transform is null");
-            return;
-        }
 #if UNITY_EDITOR
         if (Selection.Contains(gameObject))
         {
