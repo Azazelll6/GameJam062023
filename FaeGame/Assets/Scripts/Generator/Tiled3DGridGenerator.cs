@@ -30,8 +30,7 @@ public class Tiled3DGridGenerator : MonoBehaviour, INeedButton
     //variables for editor updating
     //private int _prevWidth, _prevLength, _prevHeight;
     //private float _prevHeightOffset, _resetDelay;
-
-
+    
     private void Awake()
     {
         _groundParent = GameObject.Find("Ground");
@@ -49,7 +48,7 @@ public class Tiled3DGridGenerator : MonoBehaviour, INeedButton
         }
 
         grid.InitializeArraySize(width, length);
-        for (int i = 0; i < width; i++) 
+        for (int i = 0; i < width; i++)
         {
             for (int j = 0; j < length; j++)
             {
@@ -59,7 +58,7 @@ public class Tiled3DGridGenerator : MonoBehaviour, INeedButton
                 var meshRenderer = _groundPrefab.GetComponentInChildren<MeshRenderer>();
                 Bounds bounds = meshRenderer.bounds;
                 _prefabSize = bounds.size;
-                _groundPrefab.transform.localScale = new Vector3(0.2f, 1, 0.2f);
+                _groundPrefab.transform.localScale = new Vector3(.32f, 1, .32f);
 
                     float randomHeight = Random.Range(0, heightOffset);
                 GameObject cell = Instantiate(_groundPrefab,
@@ -127,11 +126,11 @@ public class Tiled3DGridGenerator : MonoBehaviour, INeedButton
     public void OnValidate()
     {
         _resetDelay = 0.5f;
-        if(Application.isPlaying && (_prevWidth != width || _prevLength != length || _prevHeight != height || _prevHeightOffset != heightOffset))
+        if(Application.isPlaying && (_prevWidth != width || _prevLength != length || _prevHeight != startHeight || _prevHeightOffset != heightOffset))
         {
             _prevWidth = width;
             _prevLength = length;
-            _prevHeight = height;
+            _prevHeight = startHeight;
             _prevHeightOffset = heightOffset;
             StartCoroutine(DelayedResetGround());
         }

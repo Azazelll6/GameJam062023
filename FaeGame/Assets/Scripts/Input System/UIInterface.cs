@@ -18,7 +18,6 @@ public class UIInterface : MonoBehaviour
 
     public GameObject prefabObj;
     private GameObject _clone;
-    private MeshBehavior _cloneMeshBehavior;
     
     private void Awake()
     {
@@ -41,7 +40,6 @@ public class UIInterface : MonoBehaviour
         _clickData.positionStart = _clickPosition;
         _clone = Instantiate(prefabObj, GetHitPointPosition(), prefabObj.transform.rotation);
         _clone.GetComponentInChildren<Collider>().enabled = false;
-        _cloneMeshBehavior = _clone.GetComponentInChildren<MeshBehavior>();
         StartCoroutine(UpdateMousePosition());
     }
     
@@ -63,6 +61,8 @@ public class UIInterface : MonoBehaviour
         {
             GroundBehavior groundBehavior = hitObj.GetComponent<GroundBehavior>();
             Vector2Int gridLocation = groundBehavior.GetGridLocation();
+            _clickData.hitPoint = GetHitPointPosition();
+            _clickData.hitObjCollider = GetHitObj();
 
             _clickData.gridLocation = gridLocation;
             SendClickDataToTower(_clickData);

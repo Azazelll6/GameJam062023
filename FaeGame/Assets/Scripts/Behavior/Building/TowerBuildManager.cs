@@ -24,8 +24,7 @@ public class TowerBuildManager : BuildingManager
     private void OnClickDataReceived(ClickData data)
     {
         Vector2Int gridLocation = data.gridLocation;
-
-        PlaceAtGridPoint(gridLocation.x, gridLocation.y, _towerPrefab);
+        PlaceAtGridPoint(gridLocation.x, gridLocation.y, data.hitPoint, _towerPrefab);
     }
 
 
@@ -34,10 +33,12 @@ public class TowerBuildManager : BuildingManager
         
     }
 
-    private void PlaceAtGridPoint(int x, int y, GameObject prefab)
+    private void PlaceAtGridPoint(int x, int y, Vector3 hitLocation, GameObject prefab)
     {
         TileData data = grid[x, y];
+        float transY = prefab.transform.position.y * 2 + hitLocation.y;
+        Vector3 _position = new Vector3(data.transform.position.x, transY, data.transform.position.z);
 
-        Instantiate(prefab, data.transform.position, Quaternion.identity);
+        Instantiate(prefab, _position, Quaternion.identity);
     }
 }

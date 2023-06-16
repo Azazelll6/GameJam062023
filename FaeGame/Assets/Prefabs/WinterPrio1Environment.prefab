@@ -14,11 +14,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: f32f5acbc0cc9644f90b815f30121e04, type: 3}
       propertyPath: m_LocalScale.x
-      value: 0.2
+      value: 0.32
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: f32f5acbc0cc9644f90b815f30121e04, type: 3}
       propertyPath: m_LocalScale.z
-      value: 0.2
+      value: 0.32
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: f32f5acbc0cc9644f90b815f30121e04, type: 3}
       propertyPath: m_LocalPosition.x
@@ -62,7 +62,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -3133498875991405556, guid: f32f5acbc0cc9644f90b815f30121e04, type: 3}
       propertyPath: m_Layer
-      value: 27
+      value: 28
       objectReference: {fileID: 0}
     - target: {fileID: 533193074659131909, guid: f32f5acbc0cc9644f90b815f30121e04, type: 3}
       propertyPath: m_LocalScale.x
@@ -78,7 +78,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: f32f5acbc0cc9644f90b815f30121e04, type: 3}
       propertyPath: m_Name
-      value: WinterTile_4 Variant
+      value: WinterPrio1Environment
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: f32f5acbc0cc9644f90b815f30121e04, type: 3}
       propertyPath: m_Layer

@@ -965,9 +965,9 @@ MonoBehaviour:
   groundTileData: {fileID: 11400000, guid: 5f2056c2a564adb4687faba06f2a8155, type: 2}
   grid: {fileID: 11400000, guid: c5028b352a2921e49838fde0190ae458, type: 2}
   navSize: {fileID: 11400000, guid: f343e5868b4e4bd42abbbeb5ad28029e, type: 2}
-  heightOffset: 0.2
-  width: 24
-  length: 24
+  heightOffset: 1
+  width: 18
+  length: 18
   startHeight: 0
 --- !u!114 &444442979
 MonoBehaviour:
