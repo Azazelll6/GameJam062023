@@ -34,7 +34,7 @@ public class GroundBehavior : MonoBehaviour, IDrawGizmo
         
             GUIStyle style = new GUIStyle();
             style.normal.textColor = Color.white;
-            style.fontSize = 15;
+            style.fontSize = 25;
             
             // Draw the text at the top of the cube.
             position.y += transform.localScale.y/-2f - 0.5f; // Add some offset.

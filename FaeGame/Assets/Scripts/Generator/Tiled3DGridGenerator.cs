@@ -34,6 +34,7 @@ public class Tiled3DGridGenerator : MonoBehaviour, INeedButton
 
     private void Awake()
     {
+        _groundParent = GameObject.Find("Ground");
         _occupiedPrefab = groundTileData.GetOccupiedPrefab();
         _navMeshGen = GetComponent<Generate3DNavMeshSurface>();
         _wffu = new WaitForFixedUpdate();
@@ -54,14 +55,11 @@ public class Tiled3DGridGenerator : MonoBehaviour, INeedButton
             {
                 _tileData = ScriptableObject.CreateInstance<TileData>();
                 _tileData.gridCoord = new Vector2Int(i, j);
-                _groundPrefab = groundTileData.GetRandomPrefab();
+                _groundPrefab = groundTileData.GetRandomPriorityPrefab();
                 var meshRenderer = _groundPrefab.GetComponentInChildren<MeshRenderer>();
                 Bounds bounds = meshRenderer.bounds;
                 _prefabSize = bounds.size;
-                var localScale = _groundPrefab.transform.localScale;
-                //_prefabSize.x =
-                Debug.Log($"LOCALSCALE{localScale}");
-                Debug.Log($"SIZE{_prefabSize}");
+                _groundPrefab.transform.localScale = new Vector3(0.2f, 1, 0.2f);
 
                     float randomHeight = Random.Range(0, heightOffset);
                 GameObject cell = Instantiate(_groundPrefab,
@@ -91,8 +89,6 @@ public class Tiled3DGridGenerator : MonoBehaviour, INeedButton
     [ContextMenu("Reset Ground")]
     public void ResetGround()
     {
-        _groundParent = GameObject.Find("Ground");
-        
         if(_groundParent == null)
         {
             _groundParent = new GameObject("Ground");
@@ -109,14 +105,6 @@ public class Tiled3DGridGenerator : MonoBehaviour, INeedButton
     }
     
     private void OnDisable()
-    {
-        if (_groundParent != null)
-        {
-            Destroy(_groundParent);
-        }
-    }
-
-    private void OnDestroy()
     {
         if (_groundParent != null)
         {

@@ -24,7 +24,6 @@ public class TowerBuildManager : BuildingManager
     private void OnClickDataReceived(ClickData data)
     {
         Vector2Int gridLocation = data.gridLocation;
-        Debug.Log($"{gridLocation} -- {grid.Array2D[gridLocation.x, gridLocation.y].transform.position}");
 
         PlaceAtGridPoint(gridLocation.x, gridLocation.y, _towerPrefab);
     }
