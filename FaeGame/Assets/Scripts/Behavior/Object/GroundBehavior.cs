@@ -23,11 +23,6 @@ public class GroundBehavior : MonoBehaviour, IDrawGizmo
         return gridLocation;
     }
 
-    public TileData GetGridObj()
-    {
-        return _grid[gridLocation];
-    }
-
     public void OnDrawGizmos()
     {
         if (tileData == null)

@@ -19,15 +19,17 @@ public class Tiled3DGridGenerator : MonoBehaviour, INeedButton
     [SerializeField]
     private int length = 10;
     [SerializeField]
-    private int height = 1;
+    private int startHeight = 0;
     
     private GameObject _groundParent, _groundPrefab, _occupiedPrefab;
     private Vector3 _prefabScale;
     private GroundBehavior _groundBehavior;
-    private int _prevWidth, _prevLength, _prevHeight;
-    private float _prevHeightOffset;//, _resetDelay;
     private bool _isResetting;
     private WaitForFixedUpdate _wffu;
+    
+    //variables for editor updating
+    //private int _prevWidth, _prevLength, _prevHeight;
+    //private float _prevHeightOffset, _resetDelay;
 
 
     private void Awake()
@@ -53,12 +55,20 @@ public class Tiled3DGridGenerator : MonoBehaviour, INeedButton
                 _tileData = ScriptableObject.CreateInstance<TileData>();
                 _tileData.gridCoord = new Vector2Int(i, j);
                 _groundPrefab = groundTileData.GetRandomPrefab();
-                _prefabScale = _groundPrefab.transform.localScale;
+                if (_groundPrefab.TryGetComponent<MeshRenderer>(out var meshRenderer))
+                {
+                    Bounds bounds = meshRenderer.bounds;
+                    _prefabScale = bounds.size;
+                }
+                _prefabScale.x = _groundPrefab.transform.localScale.x;
+                _prefabScale.y = _groundPrefab.transform.localScale.y;
+                _prefabScale.z = _groundPrefab.transform.localScale.z;
+
                 
                 float randomHeight = Random.Range(0, heightOffset);
                 GameObject cell = Instantiate(_groundPrefab,
                     new Vector3(i * _prefabScale.x - (width * _prefabScale.x) / 2f + _prefabScale.x / 2f,
-                        0 + randomHeight,
+                         startHeight + randomHeight,
                         j * _prefabScale.z - (length * _prefabScale.z) / 2f + _prefabScale.z / 2f),
                     Quaternion.identity);
 
@@ -76,7 +86,7 @@ public class Tiled3DGridGenerator : MonoBehaviour, INeedButton
                 _groundBehavior.SetGrid(grid);
             }
         }
-        navSize.value = new Vector3(width * _prefabScale.x, height + heightOffset + 3, length * _prefabScale.z);
+        navSize.value = new Vector3(width * _prefabScale.x, startHeight + heightOffset + 3, length * _prefabScale.z);
         triggerNavRebuild.RaiseAction();
     }
 
