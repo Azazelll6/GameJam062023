@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 2873230900213880459}
   - component: {fileID: 7640212214642730534}
   - component: {fileID: 8469806140301112061}
-  m_Layer: 0
+  m_Layer: 25
   m_Name: Mesh
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -127,7 +127,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2612414347104281560}
-  m_Layer: 0
+  - component: {fileID: 2485522705763788126}
+  m_Layer: 25
   m_Name: CubeTower
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -150,3 +151,15 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2485522705763788126
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8769594241266784141}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cf0eb29b757124144944f89ee7518fd5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

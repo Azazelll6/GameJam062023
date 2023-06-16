@@ -7,7 +7,7 @@ public class UIInterface : MonoBehaviour
 {
     private WaitForFixedUpdate _waitForFixedUpdate = new WaitForFixedUpdate();
     
-    public UnityAction<ClickData> SendClickData;
+    public UnityAction<ClickData> SendClickDataToTower;
     public GameInputsSO controls;
     private ClickData _clickData;
     private Camera _cameraMain;
@@ -49,6 +49,7 @@ public class UIInterface : MonoBehaviour
     {
         while (_isHolding)
         {
+            
             _clone.transform.position = GetHitPointPosition() + new Vector3(0, _clone.transform.localScale.y, 0);
             yield return _waitForFixedUpdate;
         }
@@ -62,13 +63,15 @@ public class UIInterface : MonoBehaviour
         if (hitObj != null && hitObj.gameObject.layer == LayerMask.NameToLayer("Ground"))
         {
             GroundBehavior groundBehavior = hitObj.GetComponent<GroundBehavior>();
+            Vector2Int gridLocation = groundBehavior.GetGridLocation();
+
+            _clickData.gridLocation = gridLocation;
+            SendClickDataToTower(_clickData);
         }
-        else
-        {
-            Destroy(_clone);
-        }
-        _clone.GetComponentInChildren<Collider>().enabled = true;
+
+        Destroy(_clone);
     }
+
 
     private Vector3 GetHitPointPosition()
     {

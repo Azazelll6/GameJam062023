@@ -132,3 +132,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gridLocation: {x: 0, y: 0}
+  tileData: {fileID: 0}
+  prefab1: {fileID: 3596630296530687068, guid: 8aabb6923fda1f04b826a1539a0f4a03, type: 3}
+  prefab2: {fileID: 5653190799274710051}
+  transform: {fileID: 0}
+  position: {x: 0, y: 0, z: 0}
+  priority: 0

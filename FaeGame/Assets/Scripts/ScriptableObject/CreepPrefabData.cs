@@ -3,5 +3,11 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "CreepPrefabData", menuName = "Data/SingleValueData/CreepPrefabData")]
 public class CreepPrefabData : PrefabData
 {
-    public CreepData creepData;
+    [SerializeField] private CreepData creepDataValue;
+
+    public CreepData creepData
+    {
+        get => creepDataValue;
+        set => creepDataValue = creepData;
+    }
 }

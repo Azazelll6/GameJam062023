@@ -55,7 +55,7 @@ public class SpawnManager : MonoBehaviour, INeedButton
                 sum += creepPrefabData.priority;
                 if (randomNumber < sum)
                 {
-                    GameObject obj = Instantiate(creepPrefabData.prefab);
+                    GameObject obj = Instantiate(creepPrefabData.obj);
                     creepPrefabData.creepData.totalSpawned += 1;
                     _pooledObjects.Add(obj);
                     obj.GetComponent<NavAgentBehavior>().destination = pathingToLocation;
@@ -118,7 +118,7 @@ public class SpawnManager : MonoBehaviour, INeedButton
             sum += creepPrefabData.priority;
             if (randomNumber < sum)
             {
-                GameObject obj = Instantiate(creepPrefabData.prefab);
+                GameObject obj = Instantiate(creepPrefabData.obj);
                 creepPrefabData.creepData.totalSpawned += 1;
                 _pooledObjects.Add(obj);
                 obj.transform.position = transform.position;

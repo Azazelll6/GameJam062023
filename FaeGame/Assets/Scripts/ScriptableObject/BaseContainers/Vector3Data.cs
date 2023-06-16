@@ -1,18 +1,13 @@
 using UnityEngine;
-using Random = UnityEngine.Random;
 
 [CreateAssetMenu (fileName = "Vector3Data", menuName = "Data/SingleValueData/Vector3Data")]
 public class Vector3Data : ScriptableObject
 {
-    public Vector3 value;
-
-    public void SetValue(float X, float Y, float Z)
-    {
-        value = new Vector3(X, Y, Z);
-    }
+    [SerializeField] private Vector3 vector3;
     
-    public Vector3 GetValue()
+    public Vector3 value 
     {
-        return value;
+        get => vector3;
+        set => vector3 = value;
     }
 }

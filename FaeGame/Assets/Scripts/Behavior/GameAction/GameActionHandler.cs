@@ -4,12 +4,7 @@ using UnityEngine.Events;
 public class GameActionHandler : MonoBehaviour
 {
     public GameAction gameActionObj;
-    public UnityEvent onRaiseEvent, startEvent;
-
-    private void Start()
-    {
-        startEvent.Invoke();
-    }
+    public UnityEvent onRaiseEvent;
 
     private void OnEnable()
     {

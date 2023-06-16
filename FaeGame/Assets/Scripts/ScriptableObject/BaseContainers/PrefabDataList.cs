@@ -23,7 +23,7 @@ public class PrefabDataList : ScriptableObject
 
     public GameObject GetRandomPrefab()
     {
-        GameObject prefab = prefabDataList[Random.Range(0, Size())].prefab;
+        GameObject prefab = prefabDataList[Random.Range(0, Size())].obj;
         return prefab;
     }
 }

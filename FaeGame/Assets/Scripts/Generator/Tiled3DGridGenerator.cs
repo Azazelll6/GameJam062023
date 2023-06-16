@@ -1,13 +1,15 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 [RequireComponent(typeof(Generate3DNavMeshSurface))]
 public class Tiled3DGridGenerator : MonoBehaviour, INeedButton
 {
+    public GameAction triggerNavRebuild;
     private Generate3DNavMeshSurface _navMeshGen;
     public TileDataList groundTileData;
     public TileArrayData grid;
+    public Vector3Data navSize;
     private TileData _tileData;
     [Range(0f, 1f)]
     [Step(0.01f)]
@@ -26,6 +28,7 @@ public class Tiled3DGridGenerator : MonoBehaviour, INeedButton
     private float _prevHeightOffset;//, _resetDelay;
     private bool _isResetting;
     private WaitForFixedUpdate _wffu;
+
 
     private void Awake()
     {
@@ -47,30 +50,34 @@ public class Tiled3DGridGenerator : MonoBehaviour, INeedButton
         {
             for (int j = 0; j < length; j++)
             {
-                _groundPrefab = groundTileData.GetRandomPrefab();
                 _tileData = ScriptableObject.CreateInstance<TileData>();
+                _tileData.gridCoord = new Vector2Int(i, j);
+                _groundPrefab = groundTileData.GetRandomPrefab();
                 _prefabScale = _groundPrefab.transform.localScale;
-                _groundBehavior = _groundPrefab.GetComponent<GroundBehavior>();
                 
                 float randomHeight = Random.Range(0, heightOffset);
                 GameObject cell = Instantiate(_groundPrefab,
-                        new Vector3(i * _prefabScale.x - (width * _prefabScale.x) / 2f + _prefabScale.x / 2f,
-                            0 + randomHeight,
-                            j * _prefabScale.z - (length * _prefabScale.z) / 2f + _prefabScale.z / 2f),
-                        Quaternion.identity);
+                    new Vector3(i * _prefabScale.x - (width * _prefabScale.x) / 2f + _prefabScale.x / 2f,
+                        0 + randomHeight,
+                        j * _prefabScale.z - (length * _prefabScale.z) / 2f + _prefabScale.z / 2f),
+                    Quaternion.identity);
 
-                cell.transform.localScale = new Vector3(_prefabScale.x, height, _prefabScale.z);
                 cell.transform.SetParent(_groundParent.transform);
                 
+                _groundBehavior = cell.GetComponent<GroundBehavior>();
                 _tileData.transform = cell.transform;
                 _tileData.environmentPrefab = _groundPrefab;
                 _tileData.occupiedPrefab = _occupiedPrefab;
+                _tileData.groundBehavior = _groundBehavior;
+
                 
                 grid[i, j] = _tileData;
-                _groundBehavior.SetGridCoord(i, j, grid);
+                _groundBehavior.tileData = _tileData;
+                _groundBehavior.SetGrid(grid);
             }
         }
-        _navMeshGen.BuildNavMeshSurfaceToParent(width * _prefabScale.x, height + heightOffset + 3, length * _prefabScale.z, _groundParent);
+        navSize.value = new Vector3(width * _prefabScale.x, height + heightOffset + 3, length * _prefabScale.z);
+        triggerNavRebuild.RaiseAction();
     }
 
     [ContextMenu("Reset Ground")]
