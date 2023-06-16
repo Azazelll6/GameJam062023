@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: CapsuleCreep
   m_EditorClassIdentifier: 
   prefab: {fileID: 1995591112725303511, guid: 12d95f6b7b6a78841a6692da78a9ebfb, type: 3}
-  priority: 2
-  creepData: {fileID: 11400000, guid: d689cb7146f86124992237abede0aa6e, type: 2}
+  spawnPriority: 0
+  creepDataValue: {fileID: 11400000, guid: d689cb7146f86124992237abede0aa6e, type: 2}

@@ -12,11 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3f69c3f1c51aa8543b30e98018d6b44d, type: 3}
   m_Name: SummerNormieData
   m_EditorClassIdentifier: 
-  unitName: 
-  type: 
-  speed: 0
-  height: 0
-  radius: 0
+  unitName: SummerFireNormie
+  type: Normie
+  speed: 2
+  height: 1
+  radius: 0.25
   totalKilled: 0
-  totalSpawned: 0
+  totalSpawned: 24
   totalEscaped: 0

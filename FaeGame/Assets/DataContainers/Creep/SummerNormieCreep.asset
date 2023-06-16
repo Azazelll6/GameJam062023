@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e19ad90cfcadac648b0742e754383bf9, type: 3}
   m_Name: SummerNormieCreep
   m_EditorClassIdentifier: 
-  prefab: {fileID: 0}
-  spawnPriority: 0
-  creepDataValue: {fileID: 0}
+  prefab: {fileID: 6210334584705522930, guid: 11b58d12c5a56dc4db43c36de1ac8342, type: 3}
+  spawnPriority: 5
+  creepDataValue: {fileID: 11400000, guid: 03dac60924dbf1f479ca44a643860824, type: 2}

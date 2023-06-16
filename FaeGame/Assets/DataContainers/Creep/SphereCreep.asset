@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: SphereCreep
   m_EditorClassIdentifier: 
   prefab: {fileID: 3923174340805334834, guid: 782f4fc6ba64e0d48a8e21ca230347a4, type: 3}
-  priority: 10
-  creepData: {fileID: 11400000, guid: f932af87595c3c84eb019773cdcab7c5, type: 2}
+  spawnPriority: 0
+  creepDataValue: {fileID: 11400000, guid: f932af87595c3c84eb019773cdcab7c5, type: 2}
